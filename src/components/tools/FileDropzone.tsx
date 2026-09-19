@@ -1,21 +1,33 @@
 "use client";
 
 import React, { useRef, useState } from "react";
-import { UploadCloud, Image as ImageIcon, AlertCircle } from "lucide-react";
+import { UploadCloud, AlertCircle, LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 
 interface FileDropzoneProps {
-  onFileSelect: (file: File) => void;
+  onFileSelect?: (file: File) => void;
+  onFilesSelect?: (files: File[]) => void;
+  multiple?: boolean;
   accept?: string;
   maxSizeBytes?: number;
+  title?: string;
+  subtitle?: string;
+  buttonLabel?: string;
+  icon?: LucideIcon;
   errorMessage?: string | null;
   onClearError?: () => void;
 }
 
 export function FileDropzone({
   onFileSelect,
+  onFilesSelect,
+  multiple = false,
   accept = "image/jpeg,image/png,image/webp",
   maxSizeBytes = 25 * 1024 * 1024,
+  title,
+  subtitle,
+  buttonLabel,
+  icon: Icon = UploadCloud,
   errorMessage,
   onClearError,
 }: FileDropzoneProps) {
@@ -42,14 +54,24 @@ export function FileDropzone({
     if (onClearError) onClearError();
 
     if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
-      onFileSelect(e.dataTransfer.files[0]);
+      if (multiple && onFilesSelect) {
+        onFilesSelect(Array.from(e.dataTransfer.files));
+      } else if (onFileSelect) {
+        onFileSelect(e.dataTransfer.files[0]);
+      }
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (onClearError) onClearError();
     if (e.target.files && e.target.files.length > 0) {
-      onFileSelect(e.target.files[0]);
+      if (multiple && onFilesSelect) {
+        onFilesSelect(Array.from(e.target.files));
+      } else if (onFileSelect) {
+        onFileSelect(e.target.files[0]);
+      }
+      // Reset input value so same files can be re-selected if needed
+      e.target.value = "";
     }
   };
 
@@ -84,21 +106,22 @@ export function FileDropzone({
           ref={inputRef}
           type="file"
           accept={accept}
+          multiple={multiple}
           onChange={handleChange}
           className="hidden"
-          aria-label="Upload an image"
+          aria-label={title || "Upload file"}
         />
 
         <div className="h-14 w-14 rounded-2xl bg-white border border-border shadow-subtle flex items-center justify-center text-accent mb-4">
-          <UploadCloud className="h-7 w-7" />
+          <Icon className="h-7 w-7" />
         </div>
 
         <h3 className="text-base sm:text-lg font-semibold text-foreground">
-          Choose an image or drag & drop here
+          {title || "Choose a file or drag & drop here"}
         </h3>
 
         <p className="text-xs sm:text-sm text-muted-foreground mt-1 max-w-sm">
-          Supports JPG, PNG, and WebP photos up to {maxMb} MB
+          {subtitle || `Supports files up to ${maxMb} MB`}
         </p>
 
         <Button
@@ -107,8 +130,7 @@ export function FileDropzone({
           size="sm"
           className="mt-5 text-xs pointer-events-none"
         >
-          <ImageIcon className="h-3.5 w-3.5 mr-1.5" />
-          Select from Device
+          {buttonLabel || (multiple ? "Select Files" : "Select from Device")}
         </Button>
       </div>
 

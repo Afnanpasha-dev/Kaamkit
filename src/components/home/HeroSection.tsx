@@ -16,11 +16,12 @@ export function HeroSection({
   onSelectTag,
 }: HeroSectionProps) {
   const popularSearches = [
-    "Compress Image",
     "Merge PDF",
-    "Word Counter",
+    "Compress Image",
+    "Split PDF",
     "Resize Photo",
-    "Convert to PDF",
+    "PDF to Images",
+    "Word Counter",
   ];
 
   return (
