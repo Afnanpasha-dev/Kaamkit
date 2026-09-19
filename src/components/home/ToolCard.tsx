@@ -5,6 +5,7 @@ import { ToolDefinition } from "@/types/tools";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { ToolIcon } from "@/components/ui/ToolIcon";
+import { FavoriteButton } from "@/components/tools/FavoriteButton";
 
 interface ToolCardProps {
   tool: ToolDefinition;
@@ -44,7 +45,10 @@ export function ToolCard({ tool }: ToolCardProps) {
           <div className="h-10 w-10 rounded-xl bg-accent-subtle text-accent flex items-center justify-center border border-accent/15 group-hover:scale-105 transition-transform">
             <ToolIcon name={tool.iconName} className="h-5 w-5" />
           </div>
-          {getStatusBadge()}
+          <div className="flex items-center gap-1.5">
+            {isReady && <FavoriteButton toolId={tool.id} />}
+            {getStatusBadge()}
+          </div>
         </div>
         <div className="flex items-center gap-2 mb-1">
           <span className="text-[11px] font-medium uppercase tracking-wider text-muted-foreground">

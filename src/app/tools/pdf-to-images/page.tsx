@@ -19,6 +19,8 @@ import { Badge } from "@/components/ui/Badge";
 import { ToolHeader } from "@/components/tools/ToolHeader";
 import { FileDropzone } from "@/components/tools/FileDropzone";
 import { PdfPageSelector } from "@/components/tools/pdf/PdfPageSelector";
+import { RelatedTools } from "@/components/tools/RelatedTools";
+import { recordRecentTool } from "@/lib/storage";
 import { validatePdfFile } from "@/lib/pdf/validator";
 import { renderPdfToImages, createPdfImagesZip } from "@/lib/pdf/renderer";
 import {
@@ -43,6 +45,11 @@ export default function PdfToImagesPage() {
   // Results
   const [renderedPages, setRenderedPages] = useState<RenderedPdfPage[]>([]);
   const renderedUrlsRef = useRef<string[]>([]);
+
+  // Record recent tool visit on mount
+  useEffect(() => {
+    recordRecentTool("pdf-to-images");
+  }, []);
 
   // Cleanup object URLs on unmount
   useEffect(() => {
@@ -418,6 +425,9 @@ export default function PdfToImagesPage() {
             </div>
           </div>
         )}
+
+        {/* Related Tools Section */}
+        <RelatedTools currentSlug="pdf-to-images" />
       </Container>
     </div>
   );

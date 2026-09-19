@@ -13,9 +13,12 @@ export interface ToolDefinition {
   status: ToolStatus;
   statusLabel?: string;
   popular?: boolean;
+  popularOrder?: number;
   estimatedTime?: string;
   badge?: string;
   clientSideOnly?: boolean;
+  keywords?: string[];
+  relatedToolSlugs?: string[];
 }
 
 export interface CategoryInfo {

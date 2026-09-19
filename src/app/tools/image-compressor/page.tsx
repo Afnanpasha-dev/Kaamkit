@@ -20,6 +20,8 @@ import { Badge } from "@/components/ui/Badge";
 import { ToolHeader } from "@/components/tools/ToolHeader";
 import { FileDropzone } from "@/components/tools/FileDropzone";
 import { ImageFileInfo } from "@/components/tools/ImageFileInfo";
+import { RelatedTools } from "@/components/tools/RelatedTools";
+import { recordRecentTool } from "@/lib/storage";
 import {
   validateImageFile,
 } from "@/lib/image/validator";
@@ -53,6 +55,11 @@ export default function ImageCompressorPage() {
   // Result
   const [result, setResult] = useState<CompressionResult | null>(null);
   const activeResultUrlRef = useRef<string | null>(null);
+
+  // Record recent tool visit on mount
+  useEffect(() => {
+    recordRecentTool("image-compressor");
+  }, []);
 
   // Clean up object URLs on unmount or file reset
   useEffect(() => {
@@ -429,6 +436,8 @@ export default function ImageCompressorPage() {
             </div>
           </div>
         )}
+        {/* Related Tools Section */}
+        <RelatedTools currentSlug="image-compressor" />
       </Container>
     </div>
   );

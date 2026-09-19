@@ -16,11 +16,10 @@ export const siteConfig = {
   ],
   footerLinks: {
     tools: [
-      { label: "PDF Tools", href: "/tools?category=pdf" },
-      { label: "Image Tools", href: "/tools?category=image" },
-      { label: "Text Utilities", href: "/tools?category=text" },
-      { label: "Resume Helper", href: "/tools?category=resume" },
-      { label: "Study Tools", href: "/tools?category=study" },
+      { label: "PDF Tools", href: "/tools" },
+      { label: "Image Tools", href: "/tools" },
+      { label: "Text Utilities", href: "/tools" },
+      { label: "All Utilities", href: "/tools" },
     ],
     platform: [
       { label: "About KaamKit", href: "/about" },

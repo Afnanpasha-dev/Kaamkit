@@ -8,6 +8,8 @@ import { ToolHeader } from "@/components/tools/ToolHeader";
 import { FileDropzone } from "@/components/tools/FileDropzone";
 import { PdfFileList } from "@/components/tools/pdf/PdfFileList";
 import { PdfResultCard } from "@/components/tools/pdf/PdfResultCard";
+import { RelatedTools } from "@/components/tools/RelatedTools";
+import { recordRecentTool } from "@/lib/storage";
 import { validatePdfFile } from "@/lib/pdf/validator";
 import { mergePdfs } from "@/lib/pdf/merger";
 import { downloadBlob, revokeSafeObjectUrl } from "@/lib/pdf/utils";
@@ -19,6 +21,10 @@ export default function MergePdfPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<PdfMergeResult | null>(null);
   const activeUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    recordRecentTool("merge-pdf");
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -240,6 +246,9 @@ export default function MergePdfPage() {
             />
           </div>
         )}
+
+        {/* Related Tools Section */}
+        <RelatedTools currentSlug="merge-pdf" />
       </Container>
     </div>
   );

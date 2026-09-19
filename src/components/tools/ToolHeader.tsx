@@ -1,7 +1,8 @@
 import React from "react";
-import Link from "next/link";
-import { ArrowLeft, ShieldCheck, LucideIcon } from "lucide-react";
+import { ShieldCheck, LucideIcon } from "lucide-react";
 import { Badge } from "@/components/ui/Badge";
+import { Breadcrumbs } from "@/components/ui/Breadcrumbs";
+import { FavoriteButton } from "@/components/tools/FavoriteButton";
 
 interface ToolHeaderProps {
   title: string;
@@ -18,36 +19,31 @@ export function ToolHeader({
   icon: Icon,
   categoryName,
   categoryHref = "/tools",
+  toolSlug,
 }: ToolHeaderProps) {
   return (
     <div className="mb-8 space-y-4">
       {/* Breadcrumb & Navigation */}
-      <div className="flex flex-wrap items-center justify-between gap-2 pb-2">
-        <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
-          <Link
-            href="/tools"
-            className="inline-flex items-center gap-1 font-medium hover:text-foreground transition-colors"
-          >
-            <ArrowLeft className="h-3.5 w-3.5" />
-            All Tools
-          </Link>
-          <span>/</span>
-          <Link
-            href={categoryHref}
-            className="hover:text-foreground transition-colors"
-          >
-            {categoryName}
-          </Link>
-        </div>
+      <div className="flex flex-wrap items-center justify-between gap-3 pb-2">
+        <Breadcrumbs
+          items={[
+            { label: "All Tools", href: "/tools" },
+            { label: categoryName, href: categoryHref },
+            { label: title, isCurrent: true },
+          ]}
+        />
 
-        {/* Honest Privacy Badge */}
-        <Badge
-          variant="success"
-          className="text-[11px] font-medium gap-1.5 py-1 px-3"
-        >
-          <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
-          <span>Local Browser Processing</span>
-        </Badge>
+        <div className="flex items-center gap-2">
+          <FavoriteButton toolId={toolSlug} showLabel />
+          {/* Honest Privacy Badge */}
+          <Badge
+            variant="success"
+            className="text-[11px] font-medium gap-1.5 py-1 px-3"
+          >
+            <ShieldCheck className="h-3.5 w-3.5 text-emerald-600" />
+            <span>Local Browser Processing</span>
+          </Badge>
+        </div>
       </div>
 
       {/* Main Title & Description */}

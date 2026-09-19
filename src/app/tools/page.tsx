@@ -4,25 +4,26 @@ import { ToolCatalog } from "@/components/home/ToolCatalog";
 import { Container } from "@/components/ui/Container";
 
 export const metadata: Metadata = {
-  title: "All Digital Utilities & Tools",
+  title: "All Tools — KaamKit",
   description:
-    "Explore the complete directory of KaamKit digital tools. PDF converters, image compressors, text utilities, and study aids.",
+    "Simple tools for everyday digital tasks. Compress images, merge PDFs, resize photos, and count words directly in your browser.",
 };
 
 export default function ToolsDirectoryPage() {
   return (
-    <div className="py-8">
+    <div className="py-8 sm:py-12 bg-background min-h-screen">
       <Container size="default">
-        <div className="mb-2 pb-6 border-b border-border">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-foreground">
-            All Digital Utilities
+        {/* Clean Hero Header */}
+        <div className="text-center max-w-2xl mx-auto mb-4 pb-6 border-b border-border/60">
+          <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-foreground">
+            All tools, one place.
           </h1>
-          <p className="text-sm text-muted-foreground mt-1">
-            Browse our full catalog of fast, private tools for students, job applicants, and professionals.
+          <p className="text-sm sm:text-base text-muted-foreground mt-2 leading-relaxed">
+            Simple tools for everyday digital tasks.
           </p>
         </div>
       </Container>
-      <ToolCatalog showSearchInput={true} />
+      <ToolCatalog showSearchInput={true} showFavoritesAndRecent={true} />
     </div>
   );
 }

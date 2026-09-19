@@ -17,6 +17,8 @@ import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { ToolHeader } from "@/components/tools/ToolHeader";
 import { FileDropzone } from "@/components/tools/FileDropzone";
+import { RelatedTools } from "@/components/tools/RelatedTools";
+import { recordRecentTool } from "@/lib/storage";
 import { validatePdfFile } from "@/lib/pdf/validator";
 import { compressPdf } from "@/lib/pdf/compressor";
 import {
@@ -35,6 +37,10 @@ export default function CompressPdfPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<PdfCompressResult | null>(null);
   const activeUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    recordRecentTool("compress-pdf");
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -377,6 +383,9 @@ export default function CompressPdfPage() {
             </Card>
           </div>
         )}
+
+        {/* Related Tools Section */}
+        <RelatedTools currentSlug="compress-pdf" />
       </Container>
     </div>
   );

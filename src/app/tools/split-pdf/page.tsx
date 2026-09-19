@@ -9,6 +9,8 @@ import { ToolHeader } from "@/components/tools/ToolHeader";
 import { FileDropzone } from "@/components/tools/FileDropzone";
 import { PdfPageSelector } from "@/components/tools/pdf/PdfPageSelector";
 import { PdfResultCard } from "@/components/tools/pdf/PdfResultCard";
+import { RelatedTools } from "@/components/tools/RelatedTools";
+import { recordRecentTool } from "@/lib/storage";
 import { validatePdfFile } from "@/lib/pdf/validator";
 import { splitPdf } from "@/lib/pdf/splitter";
 import { formatFileSize, downloadBlob, revokeSafeObjectUrl, generatePdfFilename } from "@/lib/pdf/utils";
@@ -22,6 +24,10 @@ export default function SplitPdfPage() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [result, setResult] = useState<PdfSplitResult | null>(null);
   const activeUrlRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    recordRecentTool("split-pdf");
+  }, []);
 
   useEffect(() => {
     return () => {
@@ -223,6 +229,9 @@ export default function SplitPdfPage() {
             />
           </div>
         )}
+
+        {/* Related Tools Section */}
+        <RelatedTools currentSlug="split-pdf" />
       </Container>
     </div>
   );

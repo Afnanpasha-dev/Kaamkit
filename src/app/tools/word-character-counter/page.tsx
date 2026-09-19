@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   FileSpreadsheet,
   Copy,
@@ -15,10 +15,17 @@ import { Container } from "@/components/ui/Container";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { ToolHeader } from "@/components/tools/ToolHeader";
+import { RelatedTools } from "@/components/tools/RelatedTools";
+import { recordRecentTool } from "@/lib/storage";
 
 export default function WordCharacterCounterPage() {
   const [text, setText] = useState("");
   const [copied, setCopied] = useState(false);
+
+  // Record recent tool visit on mount
+  useEffect(() => {
+    recordRecentTool("word-character-counter");
+  }, []);
 
   // Real-time calculations with Unicode and Indian language support
   const stats = useMemo(() => {
@@ -323,6 +330,9 @@ export default function WordCharacterCounterPage() {
             </p>
           </div>
         </div>
+
+        {/* Related Tools Section */}
+        <RelatedTools currentSlug="word-character-counter" />
       </Container>
     </div>
   );
