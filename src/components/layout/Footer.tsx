@@ -68,7 +68,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs">
               {siteConfig.footerLinks.tools.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
@@ -87,7 +87,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs">
               {siteConfig.footerLinks.platform.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"
@@ -106,7 +106,7 @@ export function Footer() {
             </h4>
             <ul className="space-y-2 text-xs">
               {siteConfig.footerLinks.legal.map((link) => (
-                <li key={link.href}>
+                <li key={link.label}>
                   <Link
                     href={link.href}
                     className="text-muted-foreground hover:text-foreground transition-colors"

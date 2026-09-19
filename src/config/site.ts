@@ -16,9 +16,9 @@ export const siteConfig = {
   ],
   footerLinks: {
     tools: [
-      { label: "PDF Tools", href: "/tools" },
-      { label: "Image Tools", href: "/tools" },
-      { label: "Text Utilities", href: "/tools" },
+      { label: "PDF Tools", href: "/tools#pdf" },
+      { label: "Image Tools", href: "/tools#image" },
+      { label: "Text Utilities", href: "/tools#text" },
       { label: "All Utilities", href: "/tools" },
     ],
     platform: [
