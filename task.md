@@ -1,0 +1,22 @@
+# Milestone 5 Task Checklist
+
+- [x] Update Types, Tool Registry (`src/types/tools.ts`, `src/config/tools.ts`, `src/components/ui/ToolIcon.tsx`)
+- [x] Implement Engine Modules
+  - [x] Tool 8: Images to PDF engine (`src/lib/pdf/imageToPdf.ts`)
+  - [x] Tool 9: QR Code Generator engine (`src/lib/qr/generator.ts`)
+  - [x] Tool 10: Age Calculator engine (`src/lib/calculator/age.ts`)
+  - [x] Tool 11: Image to Text OCR engine (`src/lib/ocr/extractor.ts`)
+  - [x] Tool 12: PDF to Word engine (`src/lib/pdf/pdfToWord.ts`)
+- [x] Build Tool Pages & SEO Layouts
+  - [x] Tool 8: Images to PDF (`src/app/tools/images-to-pdf/`)
+  - [x] Tool 9: QR Code Generator (`src/app/tools/qr-code-generator/`)
+  - [x] Tool 10: Age Calculator (`src/app/tools/age-calculator/`)
+  - [x] Tool 11: Image to Text OCR (`src/app/tools/image-to-text/`)
+  - [x] Tool 12: PDF to Word (`src/app/tools/pdf-to-word/`)
+- [x] Verification & Testing
+  - [x] Run `npx.cmd tsc --noEmit`
+  - [x] Run `npm.cmd run lint`
+  - [x] Run `npm.cmd run build`
+  - [x] Manual testing of all 5 new tools and regression testing of 7 existing tools
+  - [x] Git commit: `feat: add images-to-pdf qr age ocr and pdf-to-word tools`
+  - [x] Final Completion Report

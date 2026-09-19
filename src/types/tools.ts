@@ -1,4 +1,4 @@
-export type ToolCategory = "pdf" | "image" | "text" | "resume" | "study";
+export type ToolCategory = "pdf" | "image" | "text" | "utility" | "resume" | "study";
 
 export type ToolStatus = "active" | "in-development" | "coming-soon";
 

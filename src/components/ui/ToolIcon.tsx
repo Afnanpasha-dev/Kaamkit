@@ -22,6 +22,11 @@ import {
   Sparkles,
   CheckCheck,
   Wrench,
+  Images,
+  QrCode,
+  Calendar,
+  ScanText,
+  FileType,
   type LucideProps,
 } from "lucide-react";
 
@@ -52,6 +57,11 @@ const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Sparkles,
   CheckCheck,
   Wrench,
+  Images,
+  QrCode,
+  Calendar,
+  ScanText,
+  FileType,
 };
 
 export function ToolIcon({ name, ...props }: ToolIconProps) {
