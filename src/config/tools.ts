@@ -36,9 +36,9 @@ export const CATEGORIES: CategoryInfo[] = [
 export const TOOLS: ToolDefinition[] = [
   // Text Tools
   {
-    id: "word-counter",
+    id: "word-character-counter",
     name: "Word & Character Counter",
-    slug: "word-counter",
+    slug: "word-character-counter",
     description:
       "Instant word count, character count, reading time estimate, and text case transformation.",
     category: "text",
@@ -147,32 +147,34 @@ export const TOOLS: ToolDefinition[] = [
 
   // Image Tools
   {
-    id: "compress-image",
-    name: "Compress Image",
-    slug: "compress-image",
+    id: "image-compressor",
+    name: "Image Compressor",
+    slug: "image-compressor",
     description:
       "Shrink JPG, PNG, and WebP file sizes down to exact KB requirements for application portals.",
     category: "image",
     categoryLabel: "Image Tools",
     iconName: "ImageDown",
-    status: "in-development",
-    statusLabel: "In Development",
+    status: "active",
+    statusLabel: "Ready to Use",
     popular: true,
-    estimatedTime: "5s",
+    estimatedTime: "Instant",
+    clientSideOnly: true,
   },
   {
-    id: "resize-image",
-    name: "Resize Photo & Signature",
-    slug: "resize-image",
+    id: "image-resizer",
+    name: "Image Resizer",
+    slug: "image-resizer",
     description:
-      "Adjust photo dimensions in pixels or cm for government forms, passports, and exams.",
+      "Adjust photo and signature dimensions in pixels for government forms, passports, and exams.",
     category: "image",
     categoryLabel: "Image Tools",
     iconName: "Crop",
-    status: "in-development",
-    statusLabel: "In Development",
+    status: "active",
+    statusLabel: "Ready to Use",
     popular: true,
-    estimatedTime: "5s",
+    estimatedTime: "Instant",
+    clientSideOnly: true,
   },
   {
     id: "convert-image",
