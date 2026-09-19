@@ -10,6 +10,9 @@ export const metadata: Metadata = {
   title: "About KaamKit",
   description:
     "Learn about KaamKit's mission: delivering clean, fast, and private digital utilities for students and everyday users in India.",
+  alternates: {
+    canonical: "/about",
+  },
 };
 
 export default function AboutPage() {

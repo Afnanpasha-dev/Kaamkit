@@ -14,6 +14,9 @@ export const metadata: Metadata = {
     "text qr",
     "scan qr",
   ],
+  alternates: {
+    canonical: "/tools/qr-code-generator",
+  },
 };
 
 export default function QrCodeGeneratorLayout({ children }: { children: React.ReactNode }) {

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "extract images from pdf",
     "free pdf to images India",
   ],
+  alternates: {
+    canonical: "/tools/pdf-to-images",
+  },
 };
 
 export default function PdfToImagesLayout({

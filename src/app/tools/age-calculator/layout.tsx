@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     "dob calculator",
     "how old am i",
   ],
+  alternates: {
+    canonical: "/tools/age-calculator",
+  },
 };
 
 export default function AgeCalculatorLayout({ children }: { children: React.ReactNode }) {

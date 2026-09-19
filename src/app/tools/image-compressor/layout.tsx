@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "reduce image file size online",
     "free image compressor India",
   ],
+  alternates: {
+    canonical: "/tools/image-compressor",
+  },
 };
 
 export default function ImageCompressorLayout({

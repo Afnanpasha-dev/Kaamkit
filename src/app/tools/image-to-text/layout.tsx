@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     "photo to text",
     "scanned text extractor",
   ],
+  alternates: {
+    canonical: "/tools/image-to-text",
+  },
 };
 
 export default function ImageToTextLayout({ children }: { children: React.ReactNode }) {

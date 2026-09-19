@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "SSC photo resizer",
     "UPSC signature resizer",
   ],
+  alternates: {
+    canonical: "/tools/image-resizer",
+  },
 };
 
 export default function ImageResizerLayout({

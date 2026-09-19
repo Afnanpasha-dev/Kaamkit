@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "merge pdf in browser India",
     "private pdf merger",
   ],
+  alternates: {
+    canonical: "/tools/merge-pdf",
+  },
 };
 
 export default function MergePdfLayout({

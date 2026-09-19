@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "All Tools — KaamKit",
   description:
     "Simple tools for everyday digital tasks. Compress images, merge PDFs, resize photos, and count words directly in your browser.",
+  alternates: {
+    canonical: "/tools",
+  },
 };
 
 export default function ToolsDirectoryPage() {

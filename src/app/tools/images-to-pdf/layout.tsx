@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     "convert images to pdf",
     "image compiler",
   ],
+  alternates: {
+    canonical: "/tools/images-to-pdf",
+  },
 };
 
 export default function ImagesToPdfLayout({ children }: { children: React.ReactNode }) {

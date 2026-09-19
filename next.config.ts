@@ -45,6 +45,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/tools/word-counter",
+        destination: "/tools/word-character-counter",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "compress pdf for government forms",
     "private pdf compressor India",
   ],
+  alternates: {
+    canonical: "/tools/compress-pdf",
+  },
 };
 
 export default function CompressPdfLayout({

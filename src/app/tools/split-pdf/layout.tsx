@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "split pdf range free",
     "private pdf splitter India",
   ],
+  alternates: {
+    canonical: "/tools/split-pdf",
+  },
 };
 
 export default function SplitPdfLayout({

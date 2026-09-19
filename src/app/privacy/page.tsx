@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Privacy Policy",
   description:
     "KaamKit's honest privacy policy: how we process your files locally in your browser and avoid permanent storage.",
+  alternates: {
+    canonical: "/privacy",
+  },
 };
 
 export default function PrivacyPage() {

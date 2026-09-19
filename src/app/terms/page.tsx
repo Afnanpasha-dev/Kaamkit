@@ -5,6 +5,9 @@ import { Container } from "@/components/ui/Container";
 export const metadata: Metadata = {
   title: "Terms of Service",
   description: "Terms of service and fair usage guidelines for KaamKit.",
+  alternates: {
+    canonical: "/terms",
+  },
 };
 
 export default function TermsPage() {

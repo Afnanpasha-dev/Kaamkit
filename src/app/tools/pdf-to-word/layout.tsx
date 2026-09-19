@@ -12,6 +12,9 @@ export const metadata: Metadata = {
     "pdf document",
     "pdf to word online",
   ],
+  alternates: {
+    canonical: "/tools/pdf-to-word",
+  },
 };
 
 export default function PdfToWordLayout({ children }: { children: React.ReactNode }) {

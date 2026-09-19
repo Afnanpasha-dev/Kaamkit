@@ -11,6 +11,9 @@ export const metadata: Metadata = {
     "UPSC essay word count",
     "text counter online India",
   ],
+  alternates: {
+    canonical: "/tools/word-character-counter",
+  },
 };
 
 export default function WordCounterLayout({

@@ -1,10 +1,16 @@
+const siteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
+  (process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://kaamkit.com");
+
 export const siteConfig = {
   name: "KaamKit",
   tagline: "Everyday digital tools. Zero hassle.",
   description:
     "Fast, private, mobile-first utility platform built for India. Compress images, manage PDFs, inspect text, and complete your tasks in seconds.",
-  url: "https://kaamkit.com",
-  ogImage: "https://kaamkit.com/og.png",
+  url: siteUrl,
+  ogImage: `${siteUrl}/og.png`,
   creator: "KaamKit Team",
   links: {
     github: "https://github.com/kaamkit",
