@@ -26,6 +26,15 @@ export function HeroSection({
     "Age Calculator",
   ];
 
+  const [isMobile, setIsMobile] = React.useState(false);
+
+  React.useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 640);
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
   return (
     <section className="relative pt-12 pb-14 sm:pt-20 sm:pb-20 border-b border-border/60 bg-gradient-to-b from-slate-50/70 to-background">
       <Container size="default">
@@ -56,22 +65,26 @@ export function HeroSection({
           {/* Interactive Search Bar */}
           <div className="w-full max-w-xl pt-2">
             <div className="relative flex items-center shadow-subtle rounded-2xl border-2 border-border bg-white focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10 transition-all duration-200">
-              <div className="pl-4 text-muted-foreground">
+              <div className="pl-3.5 sm:pl-4 text-muted-foreground shrink-0 flex items-center">
                 <Search className="h-5 w-5" />
               </div>
               <input
                 type="text"
                 value={searchQuery}
                 onChange={(e) => onSearchChange(e.target.value)}
-                placeholder="What task do you want to get done? (e.g. compress image, merge pdf)"
-                className="w-full py-3.5 pl-3 pr-4 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-transparent rounded-2xl focus:outline-none"
+                placeholder={
+                  isMobile
+                    ? "Search tools (e.g. compress, merge)..."
+                    : "What task do you want to get done? (e.g. compress image, merge pdf)"
+                }
+                className="w-full min-w-0 flex-1 py-3 sm:py-3.5 pl-2.5 sm:pl-3 pr-3 sm:pr-4 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-transparent rounded-2xl focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none focus-visible:ring-offset-0"
                 aria-label="Search digital utilities"
               />
               {searchQuery && (
                 <button
                   type="button"
                   onClick={() => onSearchChange("")}
-                  className="mr-3 px-2 py-1 text-xs text-muted-foreground hover:text-foreground font-medium rounded-md hover:bg-muted"
+                  className="mr-2.5 sm:mr-3 shrink-0 px-2 py-1 text-xs text-muted-foreground hover:text-foreground font-medium rounded-md hover:bg-muted focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-accent"
                 >
                   Clear
                 </button>

@@ -487,10 +487,30 @@ export const TOOLS: ToolDefinition[] = [
 ];
 
 /**
- * Returns only tools that are currently functional and active.
+ * Designated display order matching the Smallpdf mobile-first layout.
  */
+const ACTIVE_TOOL_ORDER: string[] = [
+  "pdf-to-word",
+  "merge-pdf",
+  "images-to-pdf",
+  "split-pdf",
+  "compress-pdf",
+  "pdf-to-images",
+  "image-compressor",
+  "image-resizer",
+  "image-to-text",
+  "word-character-counter",
+  "qr-code-generator",
+  "age-calculator",
+];
+
 export function getActiveTools(): ToolDefinition[] {
-  return TOOLS.filter((t) => t.status === "active");
+  const active = TOOLS.filter((t) => t.status === "active");
+  return active.sort((a, b) => {
+    const indexA = ACTIVE_TOOL_ORDER.indexOf(a.slug);
+    const indexB = ACTIVE_TOOL_ORDER.indexOf(b.slug);
+    return (indexA === -1 ? 999 : indexA) - (indexB === -1 ? 999 : indexB);
+  });
 }
 
 /**

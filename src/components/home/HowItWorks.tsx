@@ -29,7 +29,7 @@ export function HowItWorks() {
   ];
 
   return (
-    <section className="py-14 sm:py-20 bg-background">
+    <section id="how-it-works" className="py-14 sm:py-20 bg-background scroll-mt-20">
       <Container size="default">
         <SectionHeader
           eyebrow="Simple Workflow"

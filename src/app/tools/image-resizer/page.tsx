@@ -269,12 +269,12 @@ export default function ImageResizerPage() {
               {/* Left Column: Resize Form & Presets */}
               <div className="lg:col-span-5 space-y-6">
                 <Card className="p-5 space-y-5 bg-white border-border/90">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between flex-wrap gap-2">
                     <h2 className="text-sm font-semibold text-foreground flex items-center gap-2">
-                      <Maximize2 className="h-4 w-4 text-accent" />
+                      <Maximize2 className="h-4 w-4 text-accent shrink-0" />
                       Target Dimensions
                     </h2>
-                    <Badge variant="outline" className="text-xs font-mono">
+                    <Badge variant="outline" className="text-xs font-mono shrink-0">
                       Original: {originalDimensions.width}×{originalDimensions.height}
                     </Badge>
                   </div>
@@ -388,11 +388,11 @@ export default function ImageResizerPage() {
 
                   {/* Common Presets for Indian Portals */}
                   <div className="space-y-2 pt-2 border-t border-border">
-                    <div className="flex items-center justify-between">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
                       <p className="text-[11px] font-semibold text-foreground">
                         Common Presets:
                       </p>
-                      <Badge variant="default" className="text-[10px]">
+                      <Badge variant="default" className="text-[10px] shrink-0">
                         Exam & ID
                       </Badge>
                     </div>
@@ -404,10 +404,10 @@ export default function ImageResizerPage() {
                         size="sm"
                         onClick={() => handlePresetSelect(200, 230)}
                         disabled={isProcessing}
-                        className="text-xs h-9 justify-start text-left bg-slate-50/50 flex flex-col items-start py-1"
+                        className="w-full h-auto min-h-[50px] justify-center text-left bg-slate-50/50 hover:bg-slate-100 flex flex-col items-start py-2 px-3 border border-border rounded-lg transition-colors"
                       >
-                        <span className="font-semibold text-[11px]">Passport Photo</span>
-                        <span className="text-[10px] text-muted-foreground font-mono">200 × 230 px</span>
+                        <span className="font-semibold text-[11px] leading-tight text-foreground">Passport Photo</span>
+                        <span className="text-[10px] text-muted-foreground font-mono mt-0.5">200 × 230 px</span>
                       </Button>
 
                       <Button
@@ -416,10 +416,10 @@ export default function ImageResizerPage() {
                         size="sm"
                         onClick={() => handlePresetSelect(140, 60)}
                         disabled={isProcessing}
-                        className="text-xs h-9 justify-start text-left bg-slate-50/50 flex flex-col items-start py-1"
+                        className="w-full h-auto min-h-[50px] justify-center text-left bg-slate-50/50 hover:bg-slate-100 flex flex-col items-start py-2 px-3 border border-border rounded-lg transition-colors"
                       >
-                        <span className="font-semibold text-[11px]">Signature</span>
-                        <span className="text-[10px] text-muted-foreground font-mono">140 × 60 px</span>
+                        <span className="font-semibold text-[11px] leading-tight text-foreground">Signature</span>
+                        <span className="text-[10px] text-muted-foreground font-mono mt-0.5">140 × 60 px</span>
                       </Button>
 
                       <Button
@@ -428,10 +428,10 @@ export default function ImageResizerPage() {
                         size="sm"
                         onClick={() => handlePresetSelect(350, 450)}
                         disabled={isProcessing}
-                        className="text-xs h-9 justify-start text-left bg-slate-50/50 flex flex-col items-start py-1"
+                        className="w-full h-auto min-h-[50px] justify-center text-left bg-slate-50/50 hover:bg-slate-100 flex flex-col items-start py-2 px-3 border border-border rounded-lg transition-colors"
                       >
-                        <span className="font-semibold text-[11px]">Standard ID Photo</span>
-                        <span className="text-[10px] text-muted-foreground font-mono">350 × 450 px</span>
+                        <span className="font-semibold text-[11px] leading-tight text-foreground">Standard ID Photo</span>
+                        <span className="text-[10px] text-muted-foreground font-mono mt-0.5">350 × 450 px</span>
                       </Button>
 
                       <Button
@@ -440,10 +440,10 @@ export default function ImageResizerPage() {
                         size="sm"
                         onClick={() => handlePresetSelect(1200, 630)}
                         disabled={isProcessing}
-                        className="text-xs h-9 justify-start text-left bg-slate-50/50 flex flex-col items-start py-1"
+                        className="w-full h-auto min-h-[50px] justify-center text-left bg-slate-50/50 hover:bg-slate-100 flex flex-col items-start py-2 px-3 border border-border rounded-lg transition-colors"
                       >
-                        <span className="font-semibold text-[11px]">Social / Landscape</span>
-                        <span className="text-[10px] text-muted-foreground font-mono">1200 × 630 px</span>
+                        <span className="font-semibold text-[11px] leading-tight text-foreground">Social / Landscape</span>
+                        <span className="text-[10px] text-muted-foreground font-mono mt-0.5">1200 × 630 px</span>
                       </Button>
                     </div>
 

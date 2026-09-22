@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
-import { SearchX, Filter, Search, Star, History, Trash2 } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import { SearchX, Search, Star, History, Trash2, X } from "lucide-react";
 import { ToolCategory, ToolDefinition } from "@/types/tools";
 import { getActiveTools, getActiveCategories, getToolBySlug } from "@/config/tools";
 import { useFavorites, useRecentTools } from "@/lib/storage";
@@ -20,7 +20,7 @@ interface ToolCatalogProps {
 export function ToolCatalog({
   searchQuery: externalSearchQuery,
   onClearSearch,
-  showSearchInput = false,
+  showSearchInput = true,
   showFavoritesAndRecent = true,
   initialCategory = "all",
 }: ToolCatalogProps) {
@@ -35,14 +35,38 @@ export function ToolCatalog({
   const { favorites, isLoaded: favsLoaded } = useFavorites();
   const { recentTools, isLoaded: recentsLoaded, clear: clearRecent } = useRecentTools();
 
+  // Listen to header search events or URL params
+  useEffect(() => {
+    const handleCustomSearch = (e: Event) => {
+      const customEvent = e as CustomEvent<string>;
+      if (typeof customEvent.detail === "string") {
+        setInternalSearchQuery(customEvent.detail);
+      }
+    };
+    window.addEventListener("kaamkit:search", handleCustomSearch);
+
+    // Read URL param ?q= if present on initial load
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const q = params.get("q");
+      if (q) {
+        setInternalSearchQuery(q);
+      }
+    }
+
+    return () => window.removeEventListener("kaamkit:search", handleCustomSearch);
+  }, []);
+
   const activeSearch =
     externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
 
   const handleClear = () => {
     if (onClearSearch) {
       onClearSearch();
-    } else {
-      setInternalSearchQuery("");
+    }
+    setInternalSearchQuery("");
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("kaamkit:search", { detail: "" }));
     }
   };
 
@@ -92,30 +116,36 @@ export function ToolCatalog({
   const isSearching = activeSearch.trim().length > 0;
 
   return (
-    <section id="tools" className="py-8 sm:py-12 bg-background">
+    <section id="tools" className="py-6 sm:py-10 bg-background">
       <Container size="default">
-        {/* Optional Search Input if rendered standalone (e.g. on /tools) */}
+        {/* Clean, Minimal Search Bar matching Smallpdf specification */}
         {showSearchInput && (
-          <div className="max-w-xl mx-auto mb-10">
-            <div className="relative flex items-center shadow-subtle rounded-2xl border-2 border-border bg-white focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10 transition-all duration-200">
-              <div className="pl-4 text-muted-foreground">
+          <div className="max-w-2xl mx-auto mb-8">
+            <div className="relative flex items-center shadow-subtle rounded-2xl border border-border bg-white focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10 transition-all duration-200">
+              <div className="pl-4 text-muted-foreground shrink-0 flex items-center">
                 <Search className="h-5 w-5" />
               </div>
               <input
                 type="text"
                 value={activeSearch}
-                onChange={(e) => setInternalSearchQuery(e.target.value)}
-                placeholder="Search tools by name, task, or keywords..."
-                className="w-full py-3 pl-3 pr-4 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-transparent rounded-2xl focus:outline-none"
-                aria-label="Search all tools"
+                onChange={(e) => {
+                  setInternalSearchQuery(e.target.value);
+                  window.dispatchEvent(
+                    new CustomEvent("kaamkit:search", { detail: e.target.value })
+                  );
+                }}
+                placeholder="Search for tools..."
+                className="w-full min-w-0 flex-1 py-3.5 pl-3 pr-4 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-transparent rounded-2xl focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                aria-label="Search for tools"
               />
               {activeSearch && (
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="mr-3 px-2 py-1 text-xs text-muted-foreground hover:text-foreground font-medium rounded-md hover:bg-muted"
+                  className="mr-3 shrink-0 p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted focus-visible:outline-none"
+                  aria-label="Clear search"
                 >
-                  Clear
+                  <X className="h-4 w-4" />
                 </button>
               )}
             </div>
@@ -140,7 +170,7 @@ export function ToolCatalog({
             </div>
 
             {filteredTools.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
                 {filteredTools.map((tool) => (
                   <ToolCard key={tool.id} tool={tool} />
                 ))}
@@ -154,7 +184,7 @@ export function ToolCatalog({
                   No utilities match your search
                 </h3>
                 <p className="text-xs text-muted-foreground max-w-sm">
-                  We couldn&apos;t find any tool matching &ldquo;{activeSearch}&rdquo;. Try another keyword or browse by category.
+                  We couldn&apos;t find any tool matching &ldquo;{activeSearch}&rdquo;. Try another keyword or browse all tools.
                 </p>
                 <Button
                   variant="outline"
@@ -169,20 +199,20 @@ export function ToolCatalog({
           </div>
         ) : (
           /* Normal Discovery Mode */
-          <div className="space-y-12">
+          <div className="space-y-10">
             {/* Section 1: Favorites (Only if user has >= 1 favorite) */}
             {showFavoritesAndRecent && favsLoaded && favoritedTools.length > 0 && (
-              <div className="space-y-4">
-                <div className="flex items-center gap-2 border-b border-border/70 pb-3">
+              <div id="favorites" className="space-y-3.5 scroll-mt-20">
+                <div className="flex items-center gap-2 border-b border-border/70 pb-2.5">
                   <Star className="h-4 w-4 fill-amber-400 text-amber-500" />
-                  <h2 className="text-lg font-bold tracking-tight text-foreground">
+                  <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
                     Favorites
                   </h2>
                   <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-amber-50 text-amber-700 border border-amber-200">
                     {favoritedTools.length}
                   </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
                   {favoritedTools.map((tool) => (
                     <ToolCard key={`fav-${tool.id}`} tool={tool} />
                   ))}
@@ -192,11 +222,11 @@ export function ToolCatalog({
 
             {/* Section 2: Recently Used (Only if user has >= 1 recent tool) */}
             {showFavoritesAndRecent && recentsLoaded && recentToolDefs.length > 0 && (
-              <div className="space-y-4">
-                <div className="flex items-center justify-between border-b border-border/70 pb-3">
+              <div id="recent" className="space-y-3.5 scroll-mt-20">
+                <div className="flex items-center justify-between border-b border-border/70 pb-2.5">
                   <div className="flex items-center gap-2">
                     <History className="h-4 w-4 text-accent" />
-                    <h2 className="text-lg font-bold tracking-tight text-foreground">
+                    <h2 className="text-base sm:text-lg font-bold tracking-tight text-foreground">
                       Recently Used
                     </h2>
                     <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-accent-subtle text-accent border border-accent/20">
@@ -212,7 +242,7 @@ export function ToolCatalog({
                     <span>Clear history</span>
                   </button>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
                   {recentToolDefs.map((tool) => (
                     <ToolCard key={`recent-${tool.id}`} tool={tool} />
                   ))}
@@ -220,31 +250,30 @@ export function ToolCatalog({
               </div>
             )}
 
-            {/* Section 3: All Tools & Category Filter */}
+            {/* Section 3: Our Tools (Main Card List) */}
             <div className="space-y-6">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground">
-                    All Tools
+                  <h2 className="text-2xl sm:text-3xl font-extrabold tracking-tight text-foreground">
+                    Our Tools
                   </h2>
-                  <p className="text-xs sm:text-sm text-muted-foreground mt-0.5">
-                    Browse utilities by category. Everything processes locally in your browser.
+                  <p className="text-sm sm:text-base text-muted-foreground mt-1">
+                    Simple. Fast. Useful. 12 tools to get things done.
                   </p>
                 </div>
 
-                {/* Category Filter Tabs - Only active categories displayed */}
+                {/* Category Filter Chips */}
                 <div className="flex items-center gap-1.5 overflow-x-auto pb-1 scrollbar-none">
                   <button
                     onClick={() => setSelectedCategory("all")}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                       selectedCategory === "all"
-                        ? "bg-accent text-accent-foreground shadow-subtle"
-                        : "bg-muted text-muted-foreground hover:text-foreground hover:bg-slate-200"
+                        ? "bg-accent text-accent-foreground shadow-xs"
+                        : "bg-slate-100 text-muted-foreground hover:text-foreground hover:bg-slate-200"
                     }`}
                   >
-                    <Filter className="h-3 w-3" />
                     <span>All</span>
-                    <span className="text-[11px] opacity-80">({activeTools.length})</span>
+                    <span className="text-[10px] opacity-80">({activeTools.length})</span>
                   </button>
                   {activeCategories.map((cat) => {
                     const count = activeTools.filter((t) => t.category === cat.id).length;
@@ -253,22 +282,22 @@ export function ToolCatalog({
                       <button
                         key={cat.id}
                         onClick={() => setSelectedCategory(cat.id)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium whitespace-nowrap transition-colors flex items-center gap-1.5 ${
+                        className={`px-3 py-1.5 rounded-xl text-xs font-semibold whitespace-nowrap transition-colors flex items-center gap-1.5 ${
                           isSelected
-                            ? "bg-accent text-accent-foreground shadow-subtle"
-                            : "bg-muted text-muted-foreground hover:text-foreground hover:bg-slate-200"
+                            ? "bg-accent text-accent-foreground shadow-xs"
+                            : "bg-slate-100 text-muted-foreground hover:text-foreground hover:bg-slate-200"
                         }`}
                       >
                         <span>{cat.name.replace(" Tools", "")}</span>
-                        <span className="text-[11px] opacity-80">({count})</span>
+                        <span className="text-[10px] opacity-80">({count})</span>
                       </button>
                     );
                   })}
                 </div>
               </div>
 
-              {/* Grid of Tools */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {/* 1 Column on Mobile, 2 Columns on Tablet/Desktop */}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5 sm:gap-4">
                 {filteredTools.map((tool) => (
                   <ToolCard key={tool.id} tool={tool} />
                 ))}
