@@ -35,6 +35,7 @@ export default function CompressPdfPage() {
   const [level, setLevel] = useState<PdfCompressLevel>("balanced");
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
+  const [processingStatus, setProcessingStatus] = useState<string>("");
   const [result, setResult] = useState<PdfCompressResult | null>(null);
   const activeUrlRef = useRef<string | null>(null);
 
@@ -51,6 +52,7 @@ export default function CompressPdfPage() {
   const handleFileSelect = async (selectedFile: File) => {
     setError(null);
     setResult(null);
+    setProcessingStatus("");
     revokeSafeObjectUrl(activeUrlRef.current);
 
     const validation = await validatePdfFile(selectedFile);
@@ -69,10 +71,13 @@ export default function CompressPdfPage() {
     if (!file) return;
 
     setIsProcessing(true);
+    setProcessingStatus("Optimizing PDF document...");
     setError(null);
 
     try {
-      const compressResult = await compressPdf(file, level);
+      const compressResult = await compressPdf(file, level, (status) => {
+        setProcessingStatus(status);
+      });
       if (activeUrlRef.current) {
         revokeSafeObjectUrl(activeUrlRef.current);
       }
@@ -86,6 +91,7 @@ export default function CompressPdfPage() {
       setError(msg);
     } finally {
       setIsProcessing(false);
+      setProcessingStatus("");
     }
   };
 
@@ -281,6 +287,12 @@ export default function CompressPdfPage() {
                 </label>
               </div>
 
+              {isProcessing && processingStatus && (
+                <p className="text-xs text-center text-accent font-medium animate-pulse">
+                  {processingStatus}
+                </p>
+              )}
+
               <div className="pt-2 border-t border-border flex flex-col sm:flex-row items-center gap-3">
                 <Button
                   type="button"
@@ -336,23 +348,41 @@ export default function CompressPdfPage() {
                 </div>
 
                 <Badge
-                  variant={result.isSmaller ? "success" : "default"}
+                  variant={result.reductionPercentage >= 5 ? "success" : "default"}
                   className="text-xs font-bold py-1 px-3"
                 >
-                  {result.isSmaller
-                    ? `-${result.reductionPercentage}% reduced`
+                  {result.reductionPercentage > 0
+                    ? `-${result.reductionPercentage}% saved`
                     : "Pre-Optimized"}
                 </Badge>
               </div>
 
-              {/* Honest Explanation for Already Optimized PDFs */}
-              {!result.isSmaller && (
+              {/* Meaningful Savings Summary */}
+              {result.reductionPercentage >= 5 && (
+                <div className="p-3.5 rounded-xl border border-emerald-200 bg-emerald-50 text-emerald-900 text-xs flex items-center gap-2.5">
+                  <CheckCircle2 className="h-4 w-4 text-emerald-600 shrink-0" />
+                  <p>
+                    Successfully saved{" "}
+                    <strong>{formatFileSize(result.originalSize - result.compressedSize)}</strong>
+                    {result.imagesOptimizedCount && result.imagesOptimizedCount > 0
+                      ? ` by recompressing ${result.imagesOptimizedCount} embedded image${
+                          result.imagesOptimizedCount > 1 ? "s" : ""
+                        } and compacting document streams.`
+                      : " via structural stream compaction."}
+                  </p>
+                </div>
+              )}
+
+              {/* Honest Explanation for Already Optimized or Limited Compressible Content */}
+              {result.reductionPercentage < 5 && (
                 <div className="p-3.5 rounded-xl border border-amber-200 bg-amber-50 text-amber-900 text-xs flex items-start gap-2.5 leading-relaxed">
                   <Info className="h-4 w-4 text-amber-700 shrink-0 mt-0.5" />
                   <div>
-                    <p className="font-semibold">Already Optimized Document</p>
+                    <p className="font-semibold">Document Has Limited Compressible Content</p>
                     <p className="mt-0.5 text-amber-800">
-                      This PDF was already heavily compacted by its original creator. Further structural compression is not possible without raster degradation of content.
+                      {result.reductionPercentage > 0
+                        ? `Saved ${formatFileSize(result.originalSize - result.compressedSize)} (${result.reductionPercentage}%). This PDF was already heavily compacted by its creator or primarily consists of vector text. Further reduction without degrading text legibility was not possible.`
+                        : "This PDF was already heavily compacted by its creator or primarily consists of vector text. Further reduction without degrading text legibility was not possible."}
                     </p>
                   </div>
                 </div>

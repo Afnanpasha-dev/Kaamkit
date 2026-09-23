@@ -13,6 +13,10 @@ export async function extractTextFromImage(
   const { createWorker } = await import("tesseract.js");
 
   const worker = await createWorker("eng", 1, {
+    workerPath: "/tesseract/worker.min.js",
+    corePath: "/tesseract/core",
+    langPath: "/tesseract/lang-data",
+    gzip: true,
     logger: (m) => {
       if (m.status && onProgress) {
         const percent = Math.round((m.progress || 0) * 100);

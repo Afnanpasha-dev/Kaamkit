@@ -42,6 +42,7 @@ export interface PdfCompressResult {
   reductionPercentage: number;
   pageCount: number;
   isSmaller: boolean;
+  imagesOptimizedCount?: number;
 }
 
 export interface PdfToImageOptions {
