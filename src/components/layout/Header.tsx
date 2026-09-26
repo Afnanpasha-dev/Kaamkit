@@ -81,8 +81,12 @@ export function Header() {
                 value={headerSearch}
                 onChange={handleSearchChange}
                 onKeyDown={handleSearchKeyDown}
-                className="w-full h-9 pl-9 pr-8 text-xs sm:text-sm bg-slate-100/90 hover:bg-slate-100 focus:bg-white border border-border/60 focus:border-accent rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all placeholder:text-muted-foreground/70"
+                className="w-full h-9 pl-9 pr-8 text-xs sm:text-sm text-slate-900 caret-accent bg-slate-100/90 hover:bg-slate-100 focus:bg-white border border-border/60 focus:border-accent rounded-xl focus:outline-none focus:ring-2 focus:ring-accent/20 transition-all placeholder:text-muted-foreground/70"
                 aria-label="Search for tools"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck={false}
               />
               {headerSearch && (
                 <button

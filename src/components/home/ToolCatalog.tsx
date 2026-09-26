@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/Button";
 
 interface ToolCatalogProps {
   searchQuery?: string;
+  onSearchChange?: (query: string) => void;
   onClearSearch?: () => void;
   showSearchInput?: boolean;
   showFavoritesAndRecent?: boolean;
@@ -19,12 +20,15 @@ interface ToolCatalogProps {
 
 export function ToolCatalog({
   searchQuery: externalSearchQuery,
+  onSearchChange,
   onClearSearch,
   showSearchInput = true,
   showFavoritesAndRecent = true,
   initialCategory = "all",
 }: ToolCatalogProps) {
-  const [internalSearchQuery, setInternalSearchQuery] = useState("");
+  const [internalSearchQuery, setInternalSearchQuery] = useState(
+    externalSearchQuery ?? ""
+  );
   const [selectedCategory, setSelectedCategory] = useState<ToolCategory | "all">(
     initialCategory
   );
@@ -34,6 +38,13 @@ export function ToolCatalog({
 
   const { favorites, isLoaded: favsLoaded } = useFavorites();
   const { recentTools, isLoaded: recentsLoaded, clear: clearRecent } = useRecentTools();
+
+  // Sync internal state when externalSearchQuery prop changes
+  useEffect(() => {
+    if (externalSearchQuery !== undefined) {
+      setInternalSearchQuery(externalSearchQuery);
+    }
+  }, [externalSearchQuery]);
 
   // Listen to header search events or URL params
   useEffect(() => {
@@ -57,12 +68,28 @@ export function ToolCatalog({
     return () => window.removeEventListener("kaamkit:search", handleCustomSearch);
   }, []);
 
-  const activeSearch =
-    externalSearchQuery !== undefined ? externalSearchQuery : internalSearchQuery;
+  const isControlled = externalSearchQuery !== undefined && onSearchChange !== undefined;
+  const activeSearch = isControlled ? externalSearchQuery : internalSearchQuery;
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const val = e.target.value;
+    setInternalSearchQuery(val);
+    if (onSearchChange) {
+      onSearchChange(val);
+    }
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(
+        new CustomEvent("kaamkit:search", { detail: val })
+      );
+    }
+  };
 
   const handleClear = () => {
     if (onClearSearch) {
       onClearSearch();
+    }
+    if (onSearchChange) {
+      onSearchChange("");
     }
     setInternalSearchQuery("");
     if (typeof window !== "undefined") {
@@ -128,15 +155,14 @@ export function ToolCatalog({
               <input
                 type="text"
                 value={activeSearch}
-                onChange={(e) => {
-                  setInternalSearchQuery(e.target.value);
-                  window.dispatchEvent(
-                    new CustomEvent("kaamkit:search", { detail: e.target.value })
-                  );
-                }}
+                onChange={handleInputChange}
                 placeholder="Search for tools..."
-                className="w-full py-3.5 pl-12 pr-11 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-white border border-border rounded-2xl shadow-subtle focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/10 transition-all duration-200"
+                className="w-full py-3.5 pl-12 pr-11 text-base text-slate-900 placeholder:text-muted-foreground/70 bg-white border border-border rounded-2xl shadow-subtle focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/10 transition-all duration-200 caret-accent"
                 aria-label="Search for tools"
+                autoComplete="off"
+                autoCorrect="off"
+                autoCapitalize="none"
+                spellCheck={false}
               />
               {activeSearch && (
                 <button
