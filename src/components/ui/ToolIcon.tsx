@@ -27,6 +27,8 @@ import {
   Calendar,
   ScanText,
   FileType,
+  Calculator,
+  Receipt,
   type LucideProps,
 } from "lucide-react";
 
@@ -62,6 +64,8 @@ const iconMap: Record<string, React.ComponentType<LucideProps>> = {
   Calendar,
   ScanText,
   FileType,
+  Calculator,
+  Receipt,
 };
 
 export function ToolIcon({ name, ...props }: ToolIconProps) {

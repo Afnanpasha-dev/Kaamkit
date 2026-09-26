@@ -23,6 +23,8 @@ const TOOL_ICON_COLORS: Record<string, string> = {
   "word-character-counter": "bg-violet-600",
   "qr-code-generator": "bg-cyan-600",
   "age-calculator": "bg-blue-700",
+  "emi-calculator": "bg-emerald-700",
+  "gst-calculator": "bg-indigo-700",
 };
 
 export function ToolCard({ tool }: ToolCardProps) {
