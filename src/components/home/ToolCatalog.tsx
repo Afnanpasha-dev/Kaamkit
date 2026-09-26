@@ -121,8 +121,8 @@ export function ToolCatalog({
         {/* Clean, Minimal Search Bar matching Smallpdf specification */}
         {showSearchInput && (
           <div className="max-w-2xl mx-auto mb-8">
-            <div className="relative flex items-center shadow-subtle rounded-2xl border border-border bg-white focus-within:border-accent focus-within:ring-4 focus-within:ring-accent/10 transition-all duration-200">
-              <div className="pl-4 text-muted-foreground shrink-0 flex items-center">
+            <div className="relative w-full">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-muted-foreground">
                 <Search className="h-5 w-5" />
               </div>
               <input
@@ -135,17 +135,19 @@ export function ToolCatalog({
                   );
                 }}
                 placeholder="Search for tools..."
-                className="w-full min-w-0 flex-1 py-3.5 pl-3 pr-4 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-transparent rounded-2xl focus:outline-none focus:ring-0 focus-visible:ring-0 focus-visible:outline-none"
+                className="w-full py-3.5 pl-12 pr-11 text-sm sm:text-base text-foreground placeholder:text-muted-foreground/70 bg-white border border-border rounded-2xl shadow-subtle focus:border-accent focus:outline-none focus:ring-4 focus:ring-accent/10 transition-all duration-200"
                 aria-label="Search for tools"
               />
               {activeSearch && (
                 <button
                   type="button"
                   onClick={handleClear}
-                  className="mr-3 shrink-0 p-1.5 text-muted-foreground hover:text-foreground rounded-lg hover:bg-muted focus-visible:outline-none"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-muted-foreground hover:text-foreground focus-visible:outline-none"
                   aria-label="Clear search"
                 >
-                  <X className="h-4 w-4" />
+                  <span className="p-1 rounded-lg hover:bg-muted transition-colors flex items-center justify-center">
+                    <X className="h-4 w-4" />
+                  </span>
                 </button>
               )}
             </div>
