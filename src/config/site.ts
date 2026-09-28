@@ -2,7 +2,7 @@ const siteUrl =
   process.env.NEXT_PUBLIC_SITE_URL?.trim() ||
   (process.env.NODE_ENV === "development"
     ? "http://localhost:3000"
-    : "https://kaamkit.com");
+    : "https://kaamkit.vercel.app");
 
 export const siteConfig = {
   name: "KaamKit",
